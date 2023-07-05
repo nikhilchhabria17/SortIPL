@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+      <head>        
+
+        <title>SortIPL</title>
+        
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        *{
+          font-family: 'Poppins',sans-serif;
+        }
+        .container{
+          max-width: 700px;
+          width: 100%;
+          background-color: #fff;
+          padding: 25px 30px;
+          border-radius: 5px;
+          box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        }
+        .container .title{
+          font-size: 25px;
+          font-weight: 500;
+          position: relative;
+        }
+        .container .title::before{
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 3px;
+          width: 30px;
+          border-radius: 5px;
+          background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        .content form .user-details{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          margin: 20px 0 12px 0;
+        }
+        form .user-details .input-box{
+          margin-bottom: 15px;
+          width: calc(100% / 2 - 20px);
+        }
+        form .input-box span.details{
+          display: block;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+        .user-details .input-box input{
+          height: 45px;
+          width: 100%;
+          outline: none;
+          font-size: 16px;
+          border-radius: 5px;
+          padding-left: 15px;
+          border: 1px solid #ccc;
+          border-bottom-width: 2px;
+          transition: all 0.3s ease;
+        }
+        .user-details .input-box input:focus,
+        .user-details .input-box input:valid{
+          border-color: #9b59b6;
+        }
+         form .button{
+           height: 45px;
+           margin: 35px 0
+         }
+         form .button input{
+           height: 100%;
+           width: 100%;
+           border-radius: 5px;
+           border: none;
+           color: #fff;
+           font-size: 18px;
+           font-weight: 500;
+           letter-spacing: 1px;
+           cursor: pointer;
+           transition: all 0.3s ease;
+           background: linear-gradient(135deg, #71b7e6, #9b59b6);
+         }
+         form .button input:hover{
+          /* transform: scale(0.99); */
+          background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+          }
+        form .user-details .input-box{
+            margin-bottom: 15px;
+            width: 100%;
+          }
+          form .category{
+            width: 100%;
+          }
+          .content form .user-details{
+            max-height: 300px;
+            overflow-y: scroll;
+          }
+          .user-details::-webkit-scrollbar{
+            width: 5px;
+          }
+          
+          @media(max-width: 459px){
+          .container .content .category{
+            flex-direction: column;
+          }
+        }
+
+        table
+        {
+            background-color: white;
+        }
+        img
+        {
+            margin-left: 40%;
+            margin-top: 5%;
+            size:20%;
+        }
+        input[type="text"],input[type="number"]
+        {
+          height: 3.5vh;
+        }
+
+        td
+        {
+           /* color: white; */
+          font-size: 25px;
+
+        }
+
+        label
+        {
+            font-size: 15px;
+            color: black;
+        }
+                       body
+            {
+              margin:0px;
+               /* color: white; */
+              /* font-size:1vw; */
+                background:url('images/Mi.png') top center repeat-y;
+                background-repeat: no-repeat;  /* Background Image Will not repeat */
+                background-attachment: fixed;  /* Background Image will stay fixed */
+                background-size: cover;
+                 /* background-size: 100%; */
+                 image-rendering: -webkit-optimize-contrast;
+            }
+            .bg-image
+            {
+                background:url('Pictures/Mi.jpg') top center repeat-y;
+            }
+              ::placeholder
+                    {
+                      font-size: 13px;
+                    }
+        ul{
+          background-color:black;
+          color:white;
+          cursor: pointer;
+        }
+        li
+        {
+        padding:12px;
+        }
+        </style>
+      </head>
+      <body>
+
+        <br><br>
+        <div class="container">
+            <div class="title">Enter 
+            and Player name.</div>
+            <label>This will find all the IPL matches where the mentioned player has scored equal to or more than the mentioned runs.</label>
+
+            <form action="/details" method="POST">
+
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Enter Score:</span>
+                        <input type="number" name="score" max=175 min=0 placeholder="Enter Runs" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Enter Name:</span>
+                        <input type="text" name="player"   id="player" class="form-control" placeholder="Enter Player Name" required>
+                        <div id="playerlist" name="playerlist">
+                        </div>
+                    <div class="button">
+
+             <input type="submit" value="Find">
+           </div>
+                </div>
+            </form>
+        </div>      
+        <div id="ajax" name="ajax">
+        </div>
+
+  <br><br><br>
+  <%if (locals.items) { %>      
+  <table class='table table-hover table-light'>
+  <thead class=thead-dark>
+  <tr>
+  </tr>
+  <tr>
+  <th>Team1</th>
+  <th>Team2</th>
+  <th>Year</th>
+  <th>Score</th>  
+  <th>Link</th>
+  </tr>
+  </thead>
+  <% items.forEach(function(item) { %>
+    <tr>                    
+      <td><%= item.Mid.Team1.team_name %></td>
+      <td><%= item.Mid.Team2.team_name %></td>
+      <td><%= item.Mid.Year %></td>
+      <td><%= item.Score %></td>
+      <td><a href=<%= item.Mid.Link %>>Link</a></td>
+    </tr>              
+  <% }); %>
+  </table>
+  <% } %>     
+</body>
+  </html>   
+<script>
+
+
+  $(document).ready(function()
+    {
+        $('#player').keyup(function(e){
+          e.preventDefault();
+          var query=$(this).val();          
+          if(query!='')
+        {                    
+          $.ajax(
+            {
+              url:`/search?term=${query}`,
+              method:"GET",
+              data:{query:query},
+              success:function(data)
+              {   
+                var values=[];                                 
+                for(d in data)
+                {
+                  console.log(d)
+                   values.push("<li>"+data[d]["Pname"]+"</li>");                   
+                   
+                }       
+                $('#playerlist').fadeIn();
+                $('#playerlist').html("<ul class=list-unstyled>"+values.toString().replace(/,/g, '')+"</ul>");                
+              }
+            }
+          );
+        }
+        else {
+          $('#playerlist').fadeOut();
+          $('#playerlist').html("");
+        }
+      });        
+        $(document).on('click','li',function(){
+          $('#player').val($(this).text());
+          $('#playerlist').fadeOut();
+        });
+      });    
+    
+  </script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</html>
+
+

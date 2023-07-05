@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Hey Check1</title>
+    </head>
+    <body>
+        <div class="ui-widget">
+            <label for="player">K</label>
+            <input id="player" name="player">
+            <div id="playerlist" name="playerlist">
+            </div>
+
+        </div>        
+      
+
+</body>
+<script>
+
+  async function GetData(query){
+    const response =await fetch(`/search?term=${query}`).then(response => 
+    response.json());
+    const results = await Promise.allSettled(response);
+    return results;    
+    }
+
+  $(document).ready(function()
+    {
+        $('#player').keyup(function(){
+          var query=$(this).val();          
+          if(query!='')
+        {                    
+          $.ajax(
+            {
+              url:`/search?term=${query}`,
+              method:"GET",
+              data:{query:query},
+              success:function(data)
+              {          
+                console.log(data)          
+                $('#playerlist').fadeIn();
+                $('#playerlist').html(data);
+              }
+            }
+          );
+        }
+        else {
+          $('#playerlist').fadeOut();
+          $('#playerlist').html("");
+        }
+      });        
+        $(document).on('click','li',function(){
+          $('#player').val($(this).text());
+          $('#playerlist').fadeOut();
+        });
+      });    
+    
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+</html>
